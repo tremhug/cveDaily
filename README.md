@@ -7,7 +7,8 @@ A very basic call to nist's cve API to output the CVEs published in the past 24 
 
 python3 main.py
 
-If you need output in a file or console that does not interpret colors, you need to edit the code and switch the value to RAPPORT
+If you need output in a file or console that does not interpret colors, you need to edit the code and switch the value to RAPPORT.
+
 ![image](https://user-images.githubusercontent.com/5341004/200959046-fbe8f64b-0d0c-4a5b-835a-711913a3f5dd.png)
 
 
