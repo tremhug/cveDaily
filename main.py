@@ -2,21 +2,25 @@ import requests
 import json
 from datetime import timedelta
 from datetime import datetime
-
-
+###### RAPPORT N'AJOUTE PAS LES COULEURS ET PEUT ETRE > DANS UN FICHIER
+###### CONSOLE AFFICHERA LE RESULTAT DANS LA CONSOLE
+OUTPUT = "CONSOLE" #CONSOLE ou RAPPORT
 ###### Constantes pour les couleurs
 CRITIQUE = "\033[0;30;41m"
 HAUTE = "\033[0;30;43m"
 MOYENNE = "\033[0;30;44m"
 BASSE = "\033[0;30;42m"
-RESET = "\033[0;0m"
+if OUTPUT == "CONSOLE":
+    RESET = "\033[0;0m"
+else:
+    RESET = ""
 #####
 
 
 
 current = datetime.today()
 currentStr = current.strftime("%Y-%d-%mT%H:%M:%S")
-yesterday = current - timedelta(days=1)
+yesterday = current - timedelta(days=3)
 yesterdayStr = yesterday.strftime("%Y-%d-%mT%H:%M:%S")
 print(currentStr,"---",yesterdayStr)
 cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
@@ -38,14 +42,16 @@ for vuln in jsonCve["vulnerabilities"]:
                 cvssDatas = metric[0]["cvssData"]
                 couleurText = ""
                 if cvssDatas["version"]=="3.0": #adapter pour 3.1 ou autre
-                    score = float(cvssDatas["baseScore"])
-                    if score >= 9.0:
-                        couleurText = CRITIQUE
-                    elif score >= 7.0 and score < 9.0:
-                        couleurText = HAUTE
-                    elif score >= 5.0 and score < 7.0:
-                        couleurText = MOYENNE
-                    else:
-                        couleurText = BASSE
-
+            
+                    if OUTPUT == "CONSOLE":
+                        score = float(cvssDatas["baseScore"])
+                        if score >= 9.0:
+                            couleurText = CRITIQUE
+                        elif score >= 7.0 and score < 9.0:
+                            couleurText = HAUTE
+                        elif score >= 5.0 and score < 7.0:
+                            couleurText = MOYENNE
+                        else:
+                            couleurText = BASSE
                     print("\n\n",id,"\n", desc,"\n","baseScore: ", couleurText+str(cvssDatas["baseScore"])+RESET)
+
