@@ -15,7 +15,7 @@ Blue = Medium (5-7)
 Green = Low (<5
 
 
-# Sample html output
+## Sample html output
 ![image](https://user-images.githubusercontent.com/5341004/201145175-f749d43b-385d-40fe-8d84-ec00a4468a68.png)
 
 
