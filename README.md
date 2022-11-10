@@ -6,13 +6,15 @@ A very basic call to nist's cve API to output the CVEs published in the past 24 
 ## Usage
 
 python3 main.py CONSOLE
+
 ou
+
 python3 main.py RAPPORT>FILENAME.html
 
-RED = Critical (>9)
-YELLOW = High (7-9)
-Blue = Medium (5-7)
-Green = Low (<5
+-RED = Critical (>9)
+-YELLOW = High (7-9)
+-BLUE = Medium (5-7)
+-GREEN = Low (<5)
 
 
 ## Sample html output
