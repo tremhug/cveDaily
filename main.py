@@ -25,10 +25,10 @@ if OUTPUT == "CONSOLE":
     ENDBOLD = "\n"
 else:
     HEADER="<HTML><HEAD/><body style=\"font-family:verdana\">"
-    CRITIQUE="<font style=\"background-color:RED;color:white\">"
-    HAUTE = "<font style=\"background-color:YELLOW;color:black\">"
-    MOYENNE = "<font style=\"background-color:BLUE;color:white\">"
-    BASSE = "<font style=\"background-color:GREEN;color:WHITE\">"
+    CRITIQUE="<font style=\"background-color:#e9290f;color:white\">"
+    HAUTE = "<font style=\"background-color:  #e98a0f;color:black\">"
+    MOYENNE = "<font style=\"background-color:#fafa03;color:black\">"
+    BASSE = "<font style=\"background-color:lime;color:black\">"
     RESET = "</font>"
     CR = "<BR/>"
     FOOTER="</body></HTML>"
@@ -36,18 +36,25 @@ else:
     ENDBOLD = "</H3>"
 #####
 
-
-
 current = datetime.today()
-currentStr = current.strftime("%Y-%d-%mT%H:%M:%S")
+currentStr = current.strftime("%Y-%m-%dT%H:%M:%S")
 yesterday = current - timedelta(days=1)
-yesterdayStr = yesterday.strftime("%Y-%d-%mT%H:%M:%S")
-print(BOLD,yesterdayStr,"---",currentStr)
+yesterdayStr = yesterday.strftime("%Y-%m-%dT00:00:00")
 cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
-print(CR+"URL vers l'API -> "+cve_url+ENDBOLD)
+
+print(HEADER) #Prints HTML header if RAPPORT
+print(BOLD,yesterdayStr,"---",currentStr) #Prints dates for the report
+print(CR+"URL vers l'API -> "+cve_url+ENDBOLD) #prints the URL to the NIST API
+
+print(CRITIQUE,"CRITIQUE -  CVSS >=9",RESET,CR)
+print(HAUTE, "HAUTE -  7<=CVSS<9 ", RESET,CR)
+print(MOYENNE,"MOYENNE -  5<=CVSS<7", RESET,CR)
+print(BASSE, "BASSE -  CVSS <5",RESET,CR)
+
+
 response = requests.get(cve_url)
 jsonCve = response.json()
-print(HEADER)
+
 #print (type (jsonCve))
 for vuln in jsonCve["vulnerabilities"]:
     cves = vuln.values()
@@ -64,7 +71,7 @@ for vuln in jsonCve["vulnerabilities"]:
             if metric:
                 cvssDatas = metric[0]["cvssData"]
                 couleurText = ""
-                if cvssDatas["version"]=="3.0": #adapter pour 3.1 ou autre
+                if cvssDatas["version"]=="3.0" or cvssDatas["version"]=="3.1": #adapter pour 3.1 ou autre
                     score = float(cvssDatas["baseScore"])
                     if score >= 9.0:
                         couleurText = CRITIQUE
@@ -77,4 +84,3 @@ for vuln in jsonCve["vulnerabilities"]:
                     print(CR+CR,BOLD+id+ENDBOLD, description,CR,"Score CVSS: ", couleurText+str(cvssDatas["baseScore"])+RESET)
 print(FOOTER)
                     
-
