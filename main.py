@@ -40,8 +40,8 @@ current = datetime.today()
 currentStr = current.strftime("%Y-%m-%dT%H:%M:%S")
 yesterday = current - timedelta(days=1)
 yesterdayStr = yesterday.strftime("%Y-%m-%dT00:00:00")
-#cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
-cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?lastModStartDate="+yesterdayStr+"&lastModEndDate="+currentStr
+cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
+#cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?lastModStartDate="+yesterdayStr+"&lastModEndDate="+currentStr
 
 print(HEADER) #Prints HTML header if RAPPORT
 print(BOLD,yesterdayStr,"---",currentStr) #Prints dates for the report
