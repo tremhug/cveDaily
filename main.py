@@ -1,4 +1,4 @@
-import requests
+import requests 
 import json
 from datetime import timedelta
 from datetime import datetime
@@ -25,11 +25,11 @@ if OUTPUT == "CONSOLE":
     ENDBOLD = "\n"
 else:
     HEADER="<HTML><HEAD/><body style=\"font-family:verdana\">"
-    CRITIQUE="<font style=\"background-color:#e9290f;color:white\">"
-    HAUTE = "<font style=\"background-color:  #e98a0f;color:black\">"
-    MOYENNE = "<font style=\"background-color:#fafa03;color:black\">"
-    BASSE = "<font style=\"background-color:lime;color:black\">"
-    RESET = "</font>"
+    CRITIQUE="<font style=\"background-color:#e9290f;color:white\"><div style=\"background-color:#e9290f;color:white;width:25%;\" >"
+    HAUTE = "<font style=\"background-color:  #e98a0f;color:black\"><div style=\"background-color:  #e98a0f;color:black;width:25%;\" >"
+    MOYENNE = "<font style=\"background-color:#fafa03;color:black\"><div style=\"background-color:#fafa03;color:black;width:25%;\" >"
+    BASSE = "<font style=\"background-color:lime;color:black\"><div style=\"background-color:lime;color:black;width:25%;\" >"
+    RESET = "</div></font>"
     CR = "<BR/>"
     FOOTER="</body></HTML>"
     BOLD= "<H3>"
@@ -40,7 +40,8 @@ current = datetime.today()
 currentStr = current.strftime("%Y-%m-%dT%H:%M:%S")
 yesterday = current - timedelta(days=1)
 yesterdayStr = yesterday.strftime("%Y-%m-%dT00:00:00")
-cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
+#cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
+cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?lastModStartDate="+yesterdayStr+"&lastModEndDate="+currentStr
 
 print(HEADER) #Prints HTML header if RAPPORT
 print(BOLD,yesterdayStr,"---",currentStr) #Prints dates for the report
@@ -81,6 +82,8 @@ for vuln in jsonCve["vulnerabilities"]:
                         couleurText = MOYENNE
                     else:
                         couleurText = BASSE
-                    print(CR+CR,BOLD+id+ENDBOLD, description,CR,"Score CVSS: ", couleurText+str(cvssDatas["baseScore"])+RESET)
+                    AnchorOn = "<A href=\"https://nvd.nist.gov/vuln/detail/"+id+"\">"
+                    AnchorOff = "</A>"
+                    print(CR+CR,BOLD+AnchorOn+id+AnchorOff+ENDBOLD, description,CR,"Score CVSS: ", couleurText+str(cvssDatas["baseScore"])+RESET)
 print(FOOTER)
                     
