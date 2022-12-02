@@ -40,8 +40,7 @@ current = datetime.today()
 currentStr = current.strftime("%Y-%m-%dT%H:%M:%S")
 yesterday = current - timedelta(days=1)
 yesterdayStr = yesterday.strftime("%Y-%m-%dT00:00:00")
-#cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
-cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?lastModStartDate="+yesterdayStr+"&lastModEndDate="+currentStr
+cve_url = "https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate="+yesterdayStr+"&pubEndDate="+currentStr
 
 print(HEADER) #Prints HTML header if RAPPORT
 print(BOLD,yesterdayStr,"---",currentStr) #Prints dates for the report
@@ -82,8 +81,5 @@ for vuln in jsonCve["vulnerabilities"]:
                         couleurText = MOYENNE
                     else:
                         couleurText = BASSE
-                    AnchorOn = "<A href=\"https://nvd.nist.gov/vuln/detail/"+id+"\">"
-                    AnchorOff = "</A>"
-                    print(CR+CR,BOLD+AnchorOn+id+AnchorOff+ENDBOLD, description,CR,"Score CVSS: ", couleurText+str(cvssDatas["baseScore"])+RESET)
+                    print(CR+CR,BOLD+id+ENDBOLD, description,CR,"Score CVSS: ", couleurText+str(cvssDatas["baseScore"])+RESET)
 print(FOOTER)
-                    
